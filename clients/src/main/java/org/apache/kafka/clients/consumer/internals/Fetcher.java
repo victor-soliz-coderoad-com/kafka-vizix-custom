@@ -22,6 +22,7 @@ import org.apache.kafka.clients.Metadata;
 import org.apache.kafka.clients.StaleMetadataException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.LagHack;
 import org.apache.kafka.clients.consumer.OffsetAndTimestamp;
 import org.apache.kafka.clients.consumer.OffsetOutOfRangeException;
 import org.apache.kafka.clients.consumer.OffsetResetStrategy;
@@ -957,6 +958,9 @@ public class Fetcher<K, V> implements SubscriptionState.Listener, Closeable {
                 if (partition.highWatermark >= 0) {
                     log.trace("Updating high watermark for partition {} to {}", tp, partition.highWatermark);
                     subscriptions.updateHighWatermark(tp, partition.highWatermark);
+                  //log.info( "topic=" + tp.topic() + " part=" + tp.partition() + " hwm=" + partition.highWatermark);
+                  LagHack.putHighWatermark( tp.topic(), tp.partition(), partition.highWatermark );
+
                 }
 
                 if (partition.logStartOffset >= 0) {

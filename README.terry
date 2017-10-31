@@ -1,0 +1,25 @@
+
+
+git checkout 1.0.0-rc4
+
+# requires gradle 3.0
+# on my machine, it is here:
+export GRADLE_HOME=/usr/local/gradle
+PATH=$GRADLE_HOME/bin:$PATH
+
+
+gradle
+./gradlew clean
+./gradlew releaseTarGz
+
+
+cp ./clients/build/libs/kafka-clients-1.0.0.jar ~/projects/riot/riot-core-bridges/libs/
+cp ./streams/build/libs/kafka-streams-1.0.0.jar ~/projects/riot/riot-core-bridges/libs/
+
+cp ./clients/build/libs/kafka-clients-1.0.0.jar ~/projects/riot/riot-core-services/libs/
+cp ./streams/build/libs/kafka-streams-1.0.0.jar ~/projects/riot/riot-core-services/libs/
+cp ./core/build/libs/kafka_2.11-1.0.0.jar ~/projects/riot/riot-core-services/libs/
+
+cp ./core/build/distributions/kafka_2.11-1.0.0.tgz /usr/local
+
+
